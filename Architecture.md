@@ -4,7 +4,7 @@ An enterprise-grade, three-tier web architecture on AWS. Each component is
 placed deliberately inside the VPC to enforce security boundaries, deliver
 performance, and give operational visibility.
 
-![Architecture diagram](./architecture.png)
+![Architecture diagram](architecture.png)
 
 ## Architecture at a Glance
 
