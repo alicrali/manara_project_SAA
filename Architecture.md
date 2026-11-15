@@ -10,7 +10,7 @@ performance, and give operational visibility.
 
 | Layer | Services | Location |
 |---|---|---|
-| Edge | CloudFront, AWS WAF | Global edge |
+| Edge | Route 53, CloudFront, AWS WAF | Global edge |
 | Public access | Internet Gateway, Public ALB | Public subnets |
 | Front end | EC2 in Auto Scaling Group | Public subnets |
 | Application | Private ALB, EC2 in Auto Scaling Group | Private subnets |
@@ -18,7 +18,7 @@ performance, and give operational visibility.
 | Operations | CloudWatch, SNS, IAM | Regional services |
 
 **Request flow:**
-`Users → CloudFront + WAF → Internet Gateway → Public ALB → Front-End EC2 → Private ALB → Back-End EC2 → RDS`
+`Users → Route 53 → CloudFront + WAF → Internet Gateway → Public ALB → Front-End EC2 → Private ALB → Back-End EC2 → RDS`
 
 ## Network Layout
 
@@ -34,6 +34,9 @@ The VPC spans **two Availability Zones**. Each AZ contains **three subnets**
 ## Components
 
 ### 1. Edge Security and Content Delivery
+- **Amazon Route 53** is the DNS entry point. It resolves the application's
+  domain name to CloudFront using an alias record, so users reach the
+  distribution (and WAF) rather than any origin resource directly.
 - **Amazon CloudFront** is the global CDN. It caches static and dynamic
   content near users, which improves performance and reduces load on origins.
 - **AWS WAF** is attached to CloudFront. It blocks common exploits (SQL
